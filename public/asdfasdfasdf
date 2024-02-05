@@ -1,0 +1,7 @@
+=================================================
+=================================================
+=================================================
+=================================================
+
+$rooms = DB::SELECT("SELECT * FROM rooms WERE id NOT IN (SELECT room_id FROM bookings WHERE checkin >= '$checkin' AND
+checkout <= '$checkin' )"); return response()->json($rooms);
