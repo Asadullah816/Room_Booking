@@ -23,6 +23,7 @@ class AdminController extends Controller
        }
         $room->images = implode(',',$roomImages);
         $room->price = $req->price;
+        $room->room_no = $req->room_no;
         $room->save();
         return back();
     }
@@ -30,8 +31,5 @@ class AdminController extends Controller
         $room = Room::all();
         return view('admin.roomtable',compact('room'));
     }
-    public function viewroom($id){
-        $room = Room::find($id);
-        return view('admin.room',compact('room'));
-    }
+    
 }

@@ -7,6 +7,7 @@
             </div>
             <div class="col-6">
                 <h2>Name : {{ $room->name }}</h2>
+                <h2>Room Number : {{ $room->room_no }}</h2>
                 <h4>Price : {{ $room->price() }}</h4>
                 <ul class="list-group list-group-light">
                     <h2>Features</h2>
@@ -17,6 +18,9 @@
                     @empty
                     @endforelse
                 </ul>
+                <div class="booking-btn">
+                    <a href="{{ route('booking_form', $room->id) }}" class="btn btn-success">Book the Room</a>
+                </div>
             </div>
         </div>
         <div class="row mt-4    ">

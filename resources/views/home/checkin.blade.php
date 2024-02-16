@@ -1,7 +1,7 @@
 @include('adminlayout.master')
 
-<div class="container">
-    <form id="formdata" action="{{ route('room_check') }}" method="POST">
+<div class="container mt-5 pt-5">
+    <form id="formdata">
         @csrf
         <!-- 2 column grid layout with text inputs for the first and last names -->
         <div class="row mb-4">
@@ -24,9 +24,16 @@
 </div>
 <div class="container mt-5 pt-5">
 
-    <select name="" id="ul-items">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-dropdown-init
+            data-mdb-ripple-init aria-expanded="false">
+            Available Rooms
+        </button>
+        <ul class="dropdown-menu" id="ul-items" aria-labelledby="dropdownMenuButton">
 
-    </select>
+
+        </ul>
+    </div>
 </div>
 
 
@@ -36,9 +43,9 @@
 <script>
     $(document).ready(function() {
         $('#submit').on('click', function(e) {
+            e.preventDefault();
             let checkin = $('#checkin').val();
             let checkout = $('#checkout').val();
-            e.preventDefault();
             $.ajax({
                 url: "{{ route('room_check') }}",
                 type: 'POST',
@@ -51,9 +58,11 @@
                     $('#ul-items').empty();
                     let listItems = "";
                     $.each(response, function(index, room) {
-                        $('#ul-items').append("<option>  Room Number :" + room
-                            .room_no +
-                            "</option>");
+                        let roomul = "{{ route('viewroom', '') }}" + "/" + room.id ;
+                        $('#ul-items').append(
+                            "<li><a class='dropdown-item' href='" +
+                            roomul + "'>Room Number : " +
+                            room.room_no + "</a></li>")
                     });
                 },
                 error: function(xhr, status, error) {
