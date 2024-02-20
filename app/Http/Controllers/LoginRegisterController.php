@@ -38,7 +38,7 @@ class LoginRegisterController extends Controller
             $req->session()->regenerate();
             return redirect('/');
         }
-        return back()->with('error', 'The Credentials do not match our records');
+        return back()->with('error', 'The Credentials does not match our records');
     }
     public function logout(Request $req)
     {

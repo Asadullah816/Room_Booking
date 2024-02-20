@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::view('emailform', 'home.emailform');
 Route::controller(AdminController::class)->group(function () {
 });
+Route::view('roomcancel', 'cancel_rooms')->name('cancel_room');
 Route::controller(HomeController::class)->group(function () {
     Route::get('check', 'showCheck')->name('checkRoom');
     Route::get('viewroom/{id}', 'viewroom')->name('viewroom');
@@ -30,6 +31,9 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('room_check', 'checkroom')->name('room_check');
     Route::post('emailsend', 'mailsend')->name('sendemail');
     Route::get('sendemail', 'mailsend')->name('sendemail');
+    Route::get('cancelRoom', 'cancelRoom')->name('roomcencel');
+    Route::POST('CancelRoom', 'cancelRoom')->name('Roomcencel');
+    Route::get('deletebooking/{id}', 'deleteBooking')->name('deletebooking');
 });
 Route::view('register', 'auth.register')->name('register');
 Route::view('login', 'auth.login')->name('register');

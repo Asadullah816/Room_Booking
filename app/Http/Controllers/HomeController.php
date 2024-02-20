@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\booking;
 use App\Models\Check;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -67,21 +68,34 @@ class HomeController extends Controller
         })->where('id', $req->room_id)
             ->exists();
 
-        if ($checked) {
-            $booking = new Booking;
-            $booking->name = $req->name;
-            $booking->email = $req->email;
-            $booking->phone = $req->phone;
-            $booking->checkin = $checkin;
-            $booking->checkout = $checkout;
-            $booking->adults = $req->adults;
-            $booking->childrens = $req->childrens;
-            $booking->room_id = $req->room_id;
-            $booking->save();
-
-            return back()->with('success', 'The Room has booked success fully!');
+        if ($checkin <= Carbon::yesterday() || $checkout <= Carbon::yesterday()) {
+            return back()->with('dateError', 'Please Enter the Correct date You cannot book the Room in Past!!!');
         } else {
-            return back()->with('error', 'The Room is Already booked on this date');
+            if ($checked) {
+                $req->validate([
+                    'name' => 'required',
+                    'email' => 'required',
+                    'phone' => 'required',
+                    'checkin' => 'required',
+                    'checkout' => 'required',
+                    'adults' => 'required',
+                    'childrens' => 'required',
+                    'room_id' => 'required',
+                ]);
+                $booking = new Booking;
+                $booking->name = $req->name;
+                $booking->email = $req->email;
+                $booking->phone = $req->phone;
+                $booking->checkin = $checkin;
+                $booking->checkout = $checkout;
+                $booking->adults = $req->adults;
+                $booking->childrens = $req->childrens;
+                $booking->room_id = $req->room_id;
+                $booking->save();
+                return back()->with('success', 'The Room has booked success fully!');
+            } else {
+                return back()->with('error', 'The Room is Already booked on this date');
+            }
         }
     }
     public function mailsend(Request $req)
@@ -92,5 +106,19 @@ class HomeController extends Controller
         ];
         Mail::to('johnbhai608@gmail.com')->send(new ReservationMail($maildata));
         dd('The Email has been send successfully !!!');
+    }
+    public function cancelRoom(Request $req)
+    {
+        $email =  $req->email;
+        $booking = Booking::where('email', $email)->get();
+
+        // dd($booking);
+        return view('home.cancelRoom', compact('booking'));
+    }
+    public function deleteBooking($id)
+    {
+        $booking = Booking::find($id);
+        $booking->delete();
+        return redirect('/');
     }
 }

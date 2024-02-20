@@ -2,10 +2,14 @@
 
 <div class="container mt-5 pt-5">
     @if (session()->has('error'))
-        <h1 class="text-danger">{{ session('error') }}</h1>
+        <span role="alert" class="alert alert-danger">{{ session('error') }}</span>
     @endif
+    @if (session()->has('dateError'))
+        <span role="alert" class="alert alert-danger">{{ session('dateError') }}</span>
+    @endif
+
     @if (session()->has('success'))
-        <h1 class="text-success">{{ session('success') }}</h1>
+        <span role="alert" class="alert alert-success">{{ session('success') }}</span>
     @endif
     <h1>Booking form for Room number {{ $room->room_no }}</h1>
     <form action="{{ route('booking') }}" method="POST">
@@ -13,51 +17,52 @@
         <div class="row mb-4">
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
-                    <input type="text" name="name" class="form-control" />
+                    <input type="text" name="name" class="form-control" required />
                     <label class="form-label" for="form3Example1">Name</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
-                    <input type="email" name="email" class="form-control" />
+                    <input type="email" name="email" class="form-control" required />
                     <label class="form-label" for="form3Example1">Email</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
                     <input type="date" id="form3Example1" value="{{ $check->checkin }}" name="checkin"
-                        class="form-control text-success" />
+                        class="form-control text-success" required />
                     <label class="form-label" for="form3Example1">CheckIn Date</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
                     <input type="date" name="checkout" value="{{ $check->checkout }}"
-                        class="form-control text-danger" />
+                        class="form-control text-danger" required />
                     <label class="form-label" for="form3Example2">CheckOut Date</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
-                    <input type="text" name="phone" class="form-control" />
+                    <input type="text" name="phone" class="form-control" required />
                     <label class="form-label" for="form3Example1">Phone No</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
-                    <input type="number" name="adults" min="1" max="5" class="form-control" />
+                    <input type="number" name="adults" min="1" max="5" class="form-control" required />
                     <label class="form-label" for="form3Example1">Number of Adults</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
-                    <input type="number" name="childrens" min="0" max="5" class="form-control" />
+                    <input type="number" name="childrens" min="0" max="5" class="form-control"
+                        required />
                     <label class="form-label" for="form3Example2">Childrens</label>
                 </div>
             </div>
             <div class="col-3 mt-4">
                 <div data-mdb-input-init class="form-outline">
-                    <input type="hidden" name="room_id" value="{{ $room->id }}" class="form-control" />
+                    <input type="hidden" name="room_id" value="{{ $room->id }}" class="form-control" required />
                     {{-- <label cl  ass="form-label" for="form3Example2">Room Number {{ $room->room_no }}</label> --}}
                 </div>
             </div>
